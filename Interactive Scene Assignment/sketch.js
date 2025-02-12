@@ -10,6 +10,7 @@ function setup() {
   createCanvas(windowWidth,windowHeight);
   boxX = width/2;
   boxY = height/2;
+  color(255, 204, 0);
 }
 
 function draw() {
@@ -20,7 +21,5 @@ function draw() {
 
 function drawBackground() {
   fill(200,50, 72);
-  rect(boxX, boxY, widowWidth, 50);
+  rect(boxX, boxY, windowWidth, 100);
 }
-
-
