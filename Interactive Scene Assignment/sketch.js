@@ -5,31 +5,43 @@
 
 //Global Variable Declaration
 let jimX = 100; // starts jim at x = 100
-let currentBack = 0 //Default Background
+let currentBack = 0;//Default Background
 
 function setup() {
   createCanvas(1000, 1000);
 }
 
 function draw() {
-  background(209, 238, 240);
+  gradientBackground();
   drawBackground();
   jimTheCharacter(jimX);
 
-      // Character Movement
-      if(keyIsDown(LEFT_ARROW)){
-        jimX -= 5;
-        if(jimX < 0){  // off the screen
-          jimX = 1000;  
-          }
-      }
-      if(keyIsDown(RIGHT_ARROW)){
-        jimX += 5;
-        if(jimX > 1000){
-          jimX = 0;
-        }
-      }
+  // Character Movement
+  if(keyIsDown(LEFT_ARROW)){
+    jimX -= 5;
+    if(jimX < 0){  // off the screen
+      jimX = 1000;  
+    }
+  }
+  if(keyIsDown(RIGHT_ARROW)){
+    jimX += 5;
+    if(jimX > 1000){
+      jimX = 0;
+    }
+  }
 
+}
+
+function gradientBackground(){
+
+  let h = 2;
+
+  for(let y = 0; y < height; y+= h){
+    noStroke();
+    let mappedY = map(y,0,height,0,255);
+    fill(0, 0, mappedY);
+    rect(0, y, width, h);
+  }
 }
 
 function drawBackground() { // Draws Scenery
@@ -44,7 +56,7 @@ function drawBackground() { // Draws Scenery
   }
 
   if(currentBack === 2){   // Night
-    background(30, 30, 30);
+    gradientBackground();
   }
 
   if(currentBack === 3){   // Snowy
@@ -52,7 +64,11 @@ function drawBackground() { // Draws Scenery
   }
 
   fill(232, 200, 42);
-  circle(800, 100, 110);
+  circle(mouseX, 100, 110);
+
+  if(mouseX >= 1000){
+    mouseX = 0;
+  }
 
   fill(197, 199, 199);
   rect(0, 600, windowWidth, 200);
@@ -73,7 +89,7 @@ function drawBackground() { // Draws Scenery
 }
 
 function jimTheCharacter(x){ // Draws interactive character
-  fill(0, 0, 0)
+  fill(0, 0, 0);
   rect(x, 553, 5, 110); // moves body at x-position
 
   fill(207, 85, 74);
@@ -92,13 +108,14 @@ function jimTheCharacter(x){ // Draws interactive character
 
 }
 
+
 function mousePressed(){
   if(mouseButton === CENTER){
 
-      currentBack = (currentBack + 1);  // Changes Background
+    currentBack = currentBack + 1;  // Changes Background
 
-      if(currentBack > 3){
-        currentBack === 0
+    if(currentBack > 3){
+      currentBack === 0;
     }
 
   }
