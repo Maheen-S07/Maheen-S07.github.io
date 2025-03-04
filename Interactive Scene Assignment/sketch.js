@@ -33,7 +33,7 @@ function draw() {
 }
 
 function gradientBackground(){
-
+  // Smooth Night Background
   let h = 2;
 
   for(let y = 0; y < height; y+= h){
@@ -44,7 +44,8 @@ function gradientBackground(){
   }
 }
 
-function drawBackground() { // Draws Scenery
+function drawBackground() { 
+  // Draws Scenery
   noStroke();
 
   if(currentBack === 0){   // Default Blue Sky
@@ -67,7 +68,7 @@ function drawBackground() { // Draws Scenery
   circle(mouseX, 100, 110);
 
   if(mouseX >= 1000){
-    mouseX = 0;
+    mouseX = 1000;
   }
 
   fill(197, 199, 199);
@@ -76,7 +77,8 @@ function drawBackground() { // Draws Scenery
   fill(162, 196, 157);
   rect(0, 800, windowWidth, 200);
 
-  fill(105, 105, 100);                     // Mountains
+  // Mountains
+  fill(105, 105, 100);                     
   triangle(300, 200, 0, 600, 600, 600);
   fill(128, 128, 120);                       
   triangle(700, 200, 400, 600, 1000, 600);
@@ -88,7 +90,8 @@ function drawBackground() { // Draws Scenery
   textSize(25);
 }
 
-function jimTheCharacter(x){ // Draws interactive character
+function jimTheCharacter(x){ 
+  // Draws interactive character
   fill(0, 0, 0);
   rect(x, 553, 5, 110); // moves body at x-position
 
@@ -99,7 +102,6 @@ function jimTheCharacter(x){ // Draws interactive character
   circle(x, 510, 90); // Head moves with x
 
   // ARMS
-
   line(x + 2, 590, x - 13, 650);
   line(x + 4, 590 , x + 15, 650);
   // LEGS
@@ -110,12 +112,13 @@ function jimTheCharacter(x){ // Draws interactive character
 
 
 function mousePressed(){
+  // Changes Background
   if(mouseButton === CENTER){
 
-    currentBack = currentBack + 1;  // Changes Background
+    currentBack = currentBack + 1;  
 
     if(currentBack > 3){
-      currentBack === 0;
+      currentBack = 0;
     }
 
   }

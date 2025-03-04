@@ -14,14 +14,14 @@ function draw() {
 
 function gradientBackground(){
   //create a gradient to use as background
-  let h = 10;
+  let h = 1;
 
   //use a loop to draw vertical stack of rectangles
   for(let y = 0; y < height; y+= h){
     noStroke();
     let mappedY = map(y,0,height,0,255);
-    let reversedY = map(y,0,height,255,0);
-    fill(mappedY, reversedY, 0);
+    // let reversedY = map(y,0,height,255,0);
+    fill(mappedY, mappedY, mappedY);
     rect(0, y, width, h);
   }
 }
@@ -32,7 +32,7 @@ function circleLine(){
   let d = 40; // diameter of circle
   let y = height/2;
   let xStart = 0;
-  let xEnd = width;  //mouseX
+  let xEnd = mouseX;  //mouseX
 
   // Use a loop to do the drawing
   // RESULTS IN A SINGLE IMAGE, NO ANIMATION!
