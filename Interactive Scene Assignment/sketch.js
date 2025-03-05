@@ -5,7 +5,7 @@
 
 //Global Variable Declaration
 let jimX = 100; // starts jim at x = 100
-let currentBack = 0;//Default Background
+let currentBack = 0; //Default Background
 
 function setup() {
   createCanvas(1000, 1000);
