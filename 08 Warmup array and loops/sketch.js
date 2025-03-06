@@ -25,9 +25,6 @@ function setup() {
 
   // TASK 2: draw circles in an x shape 
 
-  let x = 0;
-  let y = 0; 
-
   for(let x = 0; x <= width; x += 40){
 
     fill(255,255,255);
@@ -35,15 +32,9 @@ function setup() {
     circle(x,400-x,20);
   }
 
-
-  while(x >= 0 && y <= 400){ 
-
-    fill(255,255,255);
-    circle(x,y - 400,20);
-    x-= 40;
-    y+= 40;
-
-  }
+  //1. x = 0
+  // circle(0,0,20)
+  //circle(0, 400,20)
 
 }
 
