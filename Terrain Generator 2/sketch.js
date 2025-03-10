@@ -4,12 +4,14 @@
 
 
 let rectWidth = 1;
-let noiseOffset = 0;
-let noiseSpeed = 0.1;
+let noiseOffset = 10;
+let noiseSpeed = 0.01; 
+let rectHeight;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   generateTerrain();
+  drawFlag();
 }
 
 function generateTerrain(){
@@ -22,7 +24,7 @@ function generateTerrain(){
     //generate a random height. 
     //change this from using random() to noise()
     let rectHeight = noise(noiseOffset);
-    rectHeight = map(rectHeight, 0, 1, 50, 500);
+    rectHeight = map(rectHeight, 0, 1, 50, 800);
     
     //calculate the other corner of our rectangle
     let x2 = x + rectWidth;
@@ -36,7 +38,29 @@ function generateTerrain(){
   rectMode(CORNER);
 }
 
+function drawFlag(x,y){
+  // Draw a flag
+  // Places the flag at the highest peak of the terrain
+
+  // let highestPoint = Infinity;
+  // let highX;
+  // let highY;
+
+  // if(rectHeight > Infinity){
+  //   rectHeight = Infinity;
+  //   highX = x;
+  //   highY = y;
+  // }
+
+  fill(0,0,0);
+  rect(x,y,5,40);
+  rect(x,y,25,20);
+
+}
+
+
+
 function draw() {
-  // background(220);
+  //background(220);
   //generateTerrain();
 }
