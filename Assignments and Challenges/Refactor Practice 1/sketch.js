@@ -10,11 +10,11 @@ function setup() {
 }
 function draw() {
   // draws rectangle at moving (x,y) positions
-  m();
+  movingRectangle();
   background(80, 80, 80);
   rect(a, b, 250, 75);
 }
-function m() {
+function movingRectangle() {
   //Determines the (x,y)
   //Bouncing off the edge effect
   a += c; b += d;

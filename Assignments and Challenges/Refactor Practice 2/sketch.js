@@ -12,6 +12,9 @@ function draw() {
   line(0, 135, 480, 135);
   noStroke();
   fill(0);
+
+  //Deteremine the mouse position
+  //Draws black rectangle depending on which quadrant the mouse is in
   if (mouseX < 240 && mouseY < 135) {
     rect(0, 0, 240, 135);
   }
