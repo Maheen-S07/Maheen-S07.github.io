@@ -4,23 +4,28 @@
 
 // 1. add two more book objects (each in a variable)
 // and add to the shelf...(connected to my book)
+
 // 2. Use a loop and an array to generate 20+ skinnybooks
 // (can be all named the same if needed)
 
 let myBook;
+let bookshelf = [];
 
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   //Make 20 books in a row
-  let x = 0;
+  let x = 50;
   let covers = ["softcover", "hardcover", "leatherbound"];
-  for(let i = 0, i<20; i++){
+  for(let i = 0; i < 20; i++){
     let choice = int(random(3)); // 0,1,2
 
-    bookshelf.push(new Book("A", "Mr Booth", 1111111111))
+    bookshelf.push(new Book("A", "Mr Booth", 1111111111, covers[choice], 200, x));
+    x += 20;
   }
+
   myBook = new Book("CS30 Text", "Mr. Scott", 1234567891011, "leatherbound", 515, width * 0.3);
+
   myBook.printOut();
 }
 
