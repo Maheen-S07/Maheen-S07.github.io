@@ -4,15 +4,28 @@
 
 
 let rectWidth = 1;
+let rectHeight;
 let noiseOffset = 10;
 let noiseSpeed = 0.01; 
-let rectHeight;
+let panSpeed = 2; 
+let totalHeight = 0;
+let averageHeight = 0;
+let rectAmount = 0;
+let maxX = 0; //highest x point
+let maxY = 0; //highest y point
+
+
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  generateTerrain();
-  drawFlag();
+  rectMode(CORNER);
 }
+
+function draw() {
+  background(255); // Will clear each frame
+  generateTerrain();
+  noiseOffset += panSpeed * noiseSpeed //Panning 
+  }
 
 function generateTerrain(){
   // use a loop to generate and draw
@@ -20,11 +33,16 @@ function generateTerrain(){
   // to look like some 2D terrain
   rectMode(CORNERS);
 
+  let offset = noiseOffset; // Starts at the updated offset
+
+  maxY = 0;
+  totalHeight = 0;
+  rectAmount = 0;
+
   for(let x = 0; x < width; x += rectWidth){
     //generate a random height. 
-    //change this from using random() to noise()
-    let rectHeight = noise(noiseOffset);
-    rectHeight = map(rectHeight, 0, 1, 50, 800);
+    rectHeight = noise(offset);
+    rectHeight = map(rectHeight, 0, 1, 50, height * 0.9);
     
     //calculate the other corner of our rectangle
     let x2 = x + rectWidth;
@@ -32,35 +50,30 @@ function generateTerrain(){
 
     rect(x, height, x2, y2);
 
-    noiseOffset += noiseSpeed; //move through noise
+    offset += noiseSpeed; //Shifts noise along the x-axis
+    totalHeight += rectHeight;
+    rectAmount++; //each time a new rect is created
+
+    if(maxY < rectHeight){
+      maxY = rectHeight;
+      maxX = x;
+    }
+
   }
-  
-  rectMode(CORNER);
+  drawFlag(maxX, height - maxY- 40); //Draws flag at highest point 
+  averageHeight = totalHeight/ rectAmount;
+  averageLine();
 }
 
 function drawFlag(x,y){
-  // Draw a flag
-  // Places the flag at the highest peak of the terrain
-
-  // let highestPoint = Infinity;
-  // let highX;
-  // let highY;
-
-  // if(rectHeight > Infinity){
-  //   rectHeight = Infinity;
-  //   highX = x;
-  //   highY = y;
-  // }
-
+//Draw a flag
+  rectMode(CORNER);
   fill(0,0,0);
   rect(x,y,5,40);
   rect(x,y,25,20);
-
 }
 
-
-
-function draw() {
-  //background(220);
-  //generateTerrain();
+function averageLine(){
+  fill(255,0,0);
+  rect(0, height - averageHeight, width, 5);
 }
