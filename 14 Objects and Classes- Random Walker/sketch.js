@@ -52,44 +52,45 @@ function draw() {
 
 }
 
-class Walker {
+  class Walker {
   //1. constructor
-  constructor(x, y, c){
-    this.x = x;
-    this.y = y;
-    this.c = c;
-    this.speed = random(2,10);
-    this.size = 5;
-  }
-
-
-
-  //2. class methods
-  display(){  //render the walker on the screen
-    rectMode(CENTER);
-    fill(this.c);
-    square(this.x,this.y,this.size);
-  }
-
-  move(){
-    //equally likely chance of ↑ down left or right 
-    let choice = floor(random(4));  //0-3.9999   "floor" rounds the number down
-    switch(choice){
-    case 0: //LEFT
-      this.x -+ this.speed;
-      break;
-    case 1: //RIGHT
-      this.x += this.speed;
-      break;
-    case 2: //UP
-      this.y -= this.speed;
-      break;
-    case 3: //DOWN
-      this.y += this.speed;
-      break;
-
+    constructor(x, y, c){
+      this.x = x;
+      this.y = y;
+      this.c = c;
+      this.speed = random(2,10);
+      this.size = 5;
     }
-  }
 
 
+
+    //2. class methods
+    display(){  //render the walker on the screen
+      rectMode(CENTER);
+      fill(this.c);
+      square(this.x,this.y,this.size);
+    }
+
+    move(){
+    //equally likely chance of ↑ down left or right 
+      let choice = floor(random(4));  //0-3.9999   "floor" rounds the number down
+      switch(choice){
+      case 0: //LEFT
+        this.x -+ this.speed;
+        break;
+      case 1: //RIGHT
+        this.x += this.speed;
+        break;
+      case 2: //UP
+        this.y -= this.speed;
+        break;
+      case 3: //DOWN
+        this.y += this.speed;
+        break;
+
+      }
+    }
+
+
+}
 }
