@@ -25,7 +25,7 @@ function draw() {
   background(255); // Will clear each frame
   generateTerrain();
   noiseOffset += panSpeed * noiseSpeed //Panning 
-  }
+}
 
 function generateTerrain(){
   // use a loop to generate and draw
