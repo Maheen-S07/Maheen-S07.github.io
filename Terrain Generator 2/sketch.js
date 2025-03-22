@@ -32,12 +32,12 @@ function generateTerrain(){
   // several rectangles side to side
   // to look like some 2D terrain
   rectMode(CORNERS);
-
   let offset = noiseOffset; // Starts at the updated offset
-
   maxY = 0;
   totalHeight = 0;
   rectAmount = 0;
+
+  fill(0); 
 
   for(let x = 0; x < width; x += rectWidth){
     //generate a random height. 
@@ -74,6 +74,17 @@ function drawFlag(x,y){
 }
 
 function averageLine(){
+  //Line drawn at the average of all heights
   fill(255,0,0);
   rect(0, height - averageHeight, width, 5);
 }
+
+function keyPressed(){
+  if(keyCode === 39){ //Increase width
+      rectWidth += 1;
+    }
+  else if(keyCode === 37 && rectWidth > 1){
+    rectWidth -= 1;
+    }
+}
+
