@@ -6,6 +6,7 @@
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+ // singleCar = new Vehicle(500,500, color(random(255), random(255), random(255)));
 }
 
 function draw() {
@@ -21,9 +22,6 @@ function drawRoad(){
   fill(235, 200, 73);
   for(x = 0; x <= width; x += 25){
     rect(x, height/2, 15, 5);
-
-
-    
   }
 }
 
@@ -55,6 +53,12 @@ class Vehicle{
     if(this.type === 1){
       //Truck
       fill(this.color);
+      rect(this.x, this. y, 80, 50);
+      rect(this.x += 80, this.y += 10, 30, 40);
+      fill(92, 94, 93);
+      circle(this.x += 10, this.y += 50, 20);
+      circle(this.y += 70, this.y += 50, 20);
+
     }
 
   }
