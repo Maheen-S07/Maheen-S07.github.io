@@ -2,11 +2,11 @@
 // Maheen Shahid
 // March 21, 2025
 
-
+// Global Variables
+let vehicles = [];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
- // singleCar = new Vehicle(500,500, color(random(255), random(255), random(255)));
 }
 
 function draw() {
@@ -29,10 +29,12 @@ class Vehicle{
   constructor(x, y, color){
     this.x = x;
     this.y = y;
-    this.type = int(random(0,1));
+    this.type = int(random(2));
     this.color = color;
-    this.direction = int(random(0,1));
-    this.xSpeed = 5;
+   
+    // Determine which way the car moves
+    let direction = random([1, -1]);
+    this.xSpeed = direction * 5; //
 
   }
 
@@ -41,13 +43,13 @@ class Vehicle{
     if(this.type === 0){
       // Car
       fill(this.color);
-      rect(this.x, this.y, 150, 100);
+      rect(this.x, this.y, 100, 60);
       fill(158, 155, 142);
       //Tires
-      rect(this.x, this.y -= 10, 40, 10);
-      rect(this.x += 110, this.y -= 10, 40, 10);
-      rect(this.x, this.y += 100, 40, 10);
-      rect(this.x += 110, this.y += 100, 40, 10);
+      rect(this.x +=5, this.y += 55, 30, 8);
+      rect(this.x += 65, this.y += 55, 30, 8);
+      rect(this.x += 5, this.y -= 10, 30, 8);
+      rect(this.x += 65, this.y -= 10, 30, 8);
     }
 
     if(this.type === 1){
@@ -62,7 +64,71 @@ class Vehicle{
     }
 
   }
-}
+
+  move(){
+    // Movement of the vehicles on screen
+    this.x += this.xSpeed;
+
+    // Wrap around the screen
+    if(this.x > width){
+      this.x = 0;
+    }
+    else if(this.x < 0){
+      this.x = width;
+    }
+  }
+
+  speedUp(){
+    //Slightly speed up vehicles
+    if(random(100) <1){ // 1% chance
+      if (this.xSpeed > 0 && this.xSpeed < 15){ 
+        this.xSpeed +=1; // Increase moving right
+        }
+      else if (this.xSpeed < 0 && this.xSpeed > -15){
+        this.xSpeed -= 1; // Increase moving left
+      }
+  }
+
+  }
+
+  speedDown(){
+    //Slightly slow vehicles down
+    if(random(100) <1){ // 1% chance
+      //Right moving cars
+      if(this.xSpeed > 0){
+        this.xSpeed -= 1; 
+        if(this.xSpeed < 1){
+          this.xSpeed = 1; //Minimum speed of 1
+        }
+      }
+      //Left Moving Cars
+      else if(this.xSpeed < 0){
+        this.xSpeed += 1;
+        if(this.xSpeed > -1){
+          this.xSpeed = -1; //Minimum speed of -1
+        }
+      }
+      }
+   }
+
+   changeColor(){
+    //Assign random colors to each car
+    if(random(100) < 1){ //1% chance
+      this.color = color(random(255), random(255), random(255));
+   }
+   }
+
+   action(){
+    // Main function that calls all other functions
+    this.display();
+    this.move();
+    this.speedUp();
+    this.speedDown();
+    this.changeColor();
+   }
+  }
+
+
 
 
 

@@ -80,10 +80,11 @@ function averageLine(){
 }
 
 function keyPressed(){
+  //Allows user to alter rectWidth
   if(keyCode === 39){ //Increase width
       rectWidth += 1;
     }
-  else if(keyCode === 37 && rectWidth > 1){
+  else if(keyCode === 37 && rectWidth > 1){ //Decrease width
     rectWidth -= 1;
     }
 }
