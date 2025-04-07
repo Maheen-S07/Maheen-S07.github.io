@@ -59,10 +59,10 @@ function mousePressed(){
    if(x > 0){
     flip(x- 1, y);  //WEST
    }
-   if( x < NUM_ROWS - 1){  //EAST
+   if( y < NUM_ROWS - 1){  //EAST
     flip( x+ 1, y);
    }
-   if( y < NUM_COLS-1){  //SOUTH
+   if( x < NUM_COLS-1){  //SOUTH
     flip(x, y+1);  
    }
   }
