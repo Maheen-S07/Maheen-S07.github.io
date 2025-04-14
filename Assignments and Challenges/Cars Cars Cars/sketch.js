@@ -16,7 +16,7 @@ function setup() {
   // 20 Eastbound Cars
   for( let i = 0; i < 20; i ++){
     let x = random(width);
-    let y = random(height/4 + 20, height/4 + 110); //Top half
+    let y = random(height/4 + 20, height/2 - 110); //Top half
     let newCar = new Vehicle(x, y, color(random(255), random(255), random(255)));
     newCar.xSpeed = abs(newCar.xSpeed); // always positive -> moving right
     eastbound.push(newCar);
@@ -25,7 +25,7 @@ function setup() {
   // 20 Westbound Cars
   for( let i = 0; i < 20; i ++){
     let x = random(width);
-    let y = random(height/4 + 160, height/4 + 270); //Bottom half
+    let y = random(height/2 + 10, height* 0.7); //Bottom half
     let newCar = new Vehicle(x, y, color(random(255), random(255), random(255)));
     newCar.xSpeed = -abs(newCar.xSpeed); // always negative -> moving left
     westbound.push(newCar);
@@ -49,7 +49,7 @@ function draw() {
 function drawRoad(){
   //draws background road
   fill(0,0,0);
-  rect(0, height/4, width, 300);
+  rect(0, height/4, width, height/2);
   fill(235, 200, 73);
   for(let x = 0; x <= width; x += 25){
     rect(x, height/2, 15, 5);
