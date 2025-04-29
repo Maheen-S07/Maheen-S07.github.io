@@ -4,35 +4,33 @@
 
 
 function setup() {
-  createCanvas(800, 800);
-  rectMode(CENTER);
-  noStroke();
+  createCanvas(800, 800, WEBGL);
+  angleMode(DEGREES);
 }
 
 function draw() {
   background(220);
-  let maxDepth =  map(mouseX, 0, width, -120, 120);
-  drawFractal(width/2, height/2, 100, maxDepth);
-
 }
 
-function drawFractal(x, y, size, depth){
-  //RECURSIVE CALL
-  if(depth > 1){
-    push();
-    translate(x,y);
-    rotate(frameCount);
-    fill(random(255),random(255),random(255))
-    rect(0,0,size,size);
-    pop();
+function drawBox(size){
+  if(size > 3){
+
   }
-
-  let newSize = size*0.5; //cut size in half
-
-  // 4 recursive calls in each corner
-  drawFractal(x - size, y - size, newSize, depth - 1);
-  drawFractal(x + size, y - size, newSize, depth - 1);
-  drawFractal(x - size, y + size, newSize, depth - 1);
-  drawFractal(x + size, y + size, newSize, depth - 1);
 }
 
+function stringRecursion(str, c) {
+  if (c === 0) {
+    return str;
+  }
+  else if (str.slice(0,1) === "c") {
+    return stringRecursion(str.slice(1) + "c", c - 1);
+  }
+  else if (str.slice(0,1) === "o") {
+    return stringRecursion(str.slice(1) + "o", c - 2);
+  }
+  else {
+    return stringRecursion(str.slice(1) + "n", c - 1);
+  }
+}
+
+console.log(stringRecursion("cocoon", 9));
