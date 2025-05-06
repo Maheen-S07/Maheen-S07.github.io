@@ -6,6 +6,7 @@ let NUM_ROWS = 4;
 let NUM_COLS = 5;
 let rectWidth, rectHeight;
 let currentRow, currentCol;
+let pattern = "cross";
 let gridData = [
   [0,   0,   0,   0, 0],
   [0,   0,   0,   0, 0],
@@ -23,9 +24,10 @@ function setup() {
 
 function draw() {
   background(220);
-  determineActiveSquare();   
+  currentSquare();   
   drawGrid(); 
   winner();
+  drawOverlay();
 }
 
 
@@ -38,11 +40,19 @@ function mousePressed(){
     flip(currentCol, currentRow);
   }
   else{
+  if(pattern === "cross"){
     flip(currentCol, currentRow);
     flip(currentCol-1, currentRow);
     flip(currentCol+1, currentRow);
     flip(currentCol, currentRow-1);
     flip(currentCol, currentRow+1);
+    }
+  else if(pattern === "square"){
+    flip(currentCol, currentRow);
+    flip(currentCol + 1, currentRow);
+    flip(currentCol, currentRow + 1);
+    flip(currentCol + 1, currentRow + 1);
+  }
   }
 }
 
@@ -58,8 +68,8 @@ function flip(col, row){
   }
 }
 
-function determineActiveSquare(){
-  // An expression to run each frame to determine where the mouse currently is.
+function currentSquare(){
+  // Determine where the mouse currently is
   currentRow = int(mouseY / rectHeight);
   currentCol = int(mouseX / rectWidth);
 }
@@ -107,6 +117,55 @@ function randomStart(){
       else{
         gridData[y][x] = 0;
       }
+    }
+  }
+}
+
+function drawOverlay(){
+  //Will show pink highlight of where the tiles would flip
+  //Both patterns
+  noStroke();
+  fill(255, 182, 193, 100);
+
+  if(keyIsDown(SHIFT)){ //Cheater function being used
+    drawHighlight(currentCol, currentRow);
+  }
+
+  else{
+    if(pattern === "cross"){
+      drawHighlight(currentCol, currentRow);
+      drawHighlight(currentCol-1, currentRow);
+      drawHighlight(currentCol+1, currentRow);
+      drawHighlight(currentCol, currentRow-1);
+      drawHighlight(currentCol, currentRow+1);
+    }
+    else if(pattern === "square"){
+      drawHighlight(currentCol, currentRow);
+      drawHighlight(currentCol + 1, currentRow);
+      drawHighlight(currentCol, currentRow + 1);
+      drawHighlight(currentCol + 1, currentRow + 1);
+  }
+}
+}
+
+
+
+function drawHighlight(col, row){
+  //draw highlighted rectangle
+  //within the boundaries
+  if(col >= 0 && col < NUM_COLS &&row >=0 && row < NUM_ROWS){ //In the boundaries
+    rect(col * rectWidth, row * rectHeight, rectWidth, rectHeight);
+  }
+}
+
+function keyPressed(){
+  // Spacebar -> changes pattern
+  if(keyCode === 32){
+    if(pattern === "cross"){
+      pattern = "square";
+    }
+    else{
+      pattern = "cross"
     }
   }
 }
