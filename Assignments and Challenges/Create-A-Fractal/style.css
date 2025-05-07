@@ -1,16 +1,15 @@
-html{
-  margin: 0;
+html, body {
+  margin: 8px;
   padding: 0;
+  display: block;
 }
 
-body{
-  position:absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #000;
+body {
+  font-family: sans-serif;
+  color: black;
+  background-color: white;
 }
 
 canvas {
-  display: block;
+  display: inline-block;
 }
