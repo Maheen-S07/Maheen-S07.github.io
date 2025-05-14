@@ -48,7 +48,11 @@ function mousePressed(){
     flip(currentCol, currentRow+1);
     }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   else if(pattern === "square"){
+=======
+  else if(pattern === "square"){ // 2 x 2 square
+>>>>>>> Stashed changes
 =======
   else if(pattern === "square"){ // 2 x 2 square
 >>>>>>> Stashed changes
@@ -136,7 +140,11 @@ function drawOverlay(){
   }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   else{
+=======
+  else{ //highlight in the chosen pattern
+>>>>>>> Stashed changes
 =======
   else{ //highlight in the chosen pattern
 >>>>>>> Stashed changes
@@ -148,7 +156,11 @@ function drawOverlay(){
       drawHighlight(currentCol, currentRow+1);
     }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     else if(pattern === "square"){
+=======
+    else if(pattern === "square"){ 
+>>>>>>> Stashed changes
 =======
     else if(pattern === "square"){ 
 >>>>>>> Stashed changes
