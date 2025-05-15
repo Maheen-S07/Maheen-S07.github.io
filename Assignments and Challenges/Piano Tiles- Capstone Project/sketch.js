@@ -9,6 +9,7 @@ let rectHeight;
 let pianoTiles = [];
 let scrollY = 0;
 let scrollSpeed = 2;
+let gameStarted = false;
 
 
 function setup() {
@@ -21,8 +22,9 @@ function draw() {
   background(220);
   drawPiano();
   updateTiles();
-  scrollY += scrollSpeed;
 }
+
+// ----------- Display and Functionality of Game --------------
 
 function setUpSizes(){
   //Set size of each tile based on size of screen
@@ -46,15 +48,16 @@ function drawPiano(){
   for (let y = 0; y < pianoTiles.length; y++){ 
     for (let x = 0; x < NUM_COLS; x++){
       let tileY = y * rectHeight + scrollY;
-      fill(pianoTiles[row][x]); 
+      fill(pianoTiles[y][x]); 
       rect(x*rectWidth, tileY -  rectHeight, rectWidth, rectHeight);
     }
   }
+  scrollY += scrollSpeed;
 }
 
 function updateTiles(){
   //Keep a flow of new rows
-  // Check if
+  // Check if a full row has passed
   if(scrollY >= rectHeight){
     scrollY -= rectHeight;
     pianoTiles.pop(); //remove bottom row
@@ -64,6 +67,8 @@ function updateTiles(){
 
 
 function randomRow(){
+  //create a row, one black tile and the rest white
+  //used for everytime a new row enters
   let row = [];
   let blackTile = floor(random(NUM_COLS)); //Choose random coloumn in the row
   for(let x = 0; x < NUM_COLS; x++){
@@ -77,9 +82,14 @@ function randomRow(){
   return row;
 }
 
-function shiftTilesDown(){
-  pianoTiles.pop(); //remove bottom row
-  pianoTiles.unshift(randomRow()); //add new row
+function startMenu(){
+
 }
+
+
+
+
+
+
 
 
