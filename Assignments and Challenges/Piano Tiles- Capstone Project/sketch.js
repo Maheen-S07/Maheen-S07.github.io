@@ -82,9 +82,7 @@ function randomRow(){
   return row;
 }
 
-function startMenu(){
 
-}
 
 
 
