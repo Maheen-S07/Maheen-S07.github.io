@@ -83,6 +83,8 @@ function randomRow(){
   return row;
 }
 
+// ------- Touch -----------
+
 function tileTouch(x,y){
   for (let y = 0; y < pianoTiles.length; y++){}
     for (let x = 0; x < NUM_COLS; x++){
@@ -103,10 +105,23 @@ function tileTouch(x,y){
 
 }
 
-
-
 function touchStarted(){
-  tileTouch(tileX, tileY);
+  for (let y = 0; y < pianoTiles.length; y++){}
+    for (let x = 0; x < NUM_COLS; x++){
+      let tileX = x * rectWidth;
+      let tileY = y * rectHeight + scrollY - rectHeight;
+      //where did we click?
+      if(x > tileX && x < tileX + rectWidth && y > tileY && y < tileY + rectHeight){
+        let color = pianoTiles[y][x];
+        if(color === 'black'){
+          pianoTiles[y][x] = 'white';
+        }
+        else if(color === 'white'){  //clicked the wrong tile
+          pianoTiles[y][x] = 'red'
+        }
+        }
+
+      }
   return false;
 }
 
