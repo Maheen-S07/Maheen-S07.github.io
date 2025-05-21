@@ -2,6 +2,7 @@
 // Maheen Shahid
 // May 8, 2025
 
+//Global Variable Declarations
 let NUM_ROWS = 4
 let NUM_COLS = 4
 let rectWidth;
@@ -9,7 +10,7 @@ let rectHeight;
 let pianoTiles = [];
 let scrollY = 0;
 let scrollSpeed = 2;
-let gameStarted = false;
+let value = 0;
 
 
 function setup() {
@@ -73,13 +74,40 @@ function randomRow(){
   let blackTile = floor(random(NUM_COLS)); //Choose random coloumn in the row
   for(let x = 0; x < NUM_COLS; x++){
     if(x === blackTile){
-      row.push([0,0,0]); // Black tile
+      row.push('black'); // Black tile
   }
     else{
-       row.push([255,255,255]); // White Tile
+       row.push('white'); // White Tile
   }
  }
   return row;
+}
+
+function tileTouch(x,y){
+  for (let y = 0; y < pianoTiles.length; y++){}
+    for (let x = 0; x < NUM_COLS; x++){
+      let tileX = x * rectWidth;
+      let tileY = y * rectHeight + scrollY - rectHeight;
+      //where did we click?
+      if(x > tileX && x < tileX + rectWidth && y > tileY && y < tileY + rectHeight){
+        let color = pianoTiles[y][x];
+        if(color === 'black'){
+          pianoTiles[y][x] = 'white';
+        }
+        else if(color === 'white'){  //clicked the wrong tile
+          pianoTiles[y][x] = 'red'
+        }
+        }
+
+      }
+
+}
+
+
+
+function touchStarted(){
+  tileTouch(tileX, tileY);
+  return false;
 }
 
 
