@@ -106,24 +106,27 @@ function tileTouch(x,y){
 }
 
 function touchStarted(){
-  for (let y = 0; y < pianoTiles.length; y++){}
-    for (let x = 0; x < NUM_COLS; x++){
-      let tileX = x * rectWidth;
-      let tileY = y * rectHeight + scrollY - rectHeight;
+  for (let row = 0; y < pianoTiles.length; row++){}
+    for (let col = 0; col < NUM_COLS; col++){
+      let tileX = col * rectWidth;
+      let tileY = row * rectHeight + scrollY - rectHeight;
+
       //where did we click?
-      if(x > tileX && x < tileX + rectWidth && y > tileY && y < tileY + rectHeight){
-        let color = pianoTiles[y][x];
+      if(mouseX > tileX && mouseX < tileX + rectWidth && mouseY > tileY && mouseY < tileY + rectHeight){
+        let color = pianoTiles[row][col];
         if(color === 'black'){
-          pianoTiles[y][x] = 'white';
+          pianoTiles[row][col] = 'white';
         }
         else if(color === 'white'){  //clicked the wrong tile
-          pianoTiles[y][x] = 'red'
+          pianoTiles[row][col] = 'red'
         }
         }
 
       }
   return false;
 }
+
+
 
 
 
