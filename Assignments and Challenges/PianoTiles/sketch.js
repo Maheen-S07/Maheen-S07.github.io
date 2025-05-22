@@ -9,8 +9,7 @@ let rectWidth;
 let rectHeight;
 let pianoTiles = [];
 let scrollY = 0;
-let scrollSpeed = 2;
-let value = 0;
+let scrollSpeed = 4;
 
 
 function setup() {
@@ -26,7 +25,31 @@ function draw() {
 }
 
 // ----------- Display and Functionality of Game --------------
+class Tile{
+  constructor(x,y,color){
+    this.x = x;
+    this.y = y;
+    this.color = color;
 
+  }
+
+  draw(){
+    fill(this.color);
+    rect(this.x,this.y, rectWidth, rectHeight);
+  }
+
+  checkTouch(mouseX, mouseY){
+          if(mouseX > tileX && mouseX < tileX + rectWidth && mouseY > tileY && mouseY < tileY + rectHeight){
+        let color = pianoTiles[row][col];
+        if(color === 'black'){
+          pianoTiles[row][col] = 'white';
+        }
+        else if(color === 'white'){  //clicked the wrong tile
+          pianoTiles[row][col] = 'red'
+        }
+        }
+  }
+}
 function setUpSizes(){
   //Set size of each tile based on size of screen
   //Uses rows/cols to divide
@@ -85,28 +108,8 @@ function randomRow(){
 
 // ------- Touch -----------
 
-function tileTouch(x,y){
-  for (let y = 0; y < pianoTiles.length; y++){}
-    for (let x = 0; x < NUM_COLS; x++){
-      let tileX = x * rectWidth;
-      let tileY = y * rectHeight + scrollY - rectHeight;
-      //where did we click?
-      if(x > tileX && x < tileX + rectWidth && y > tileY && y < tileY + rectHeight){
-        let color = pianoTiles[y][x];
-        if(color === 'black'){
-          pianoTiles[y][x] = 'white';
-        }
-        else if(color === 'white'){  //clicked the wrong tile
-          pianoTiles[y][x] = 'red'
-        }
-        }
-
-      }
-
-}
-
 function touchStarted(){
-  for (let row = 0; y < pianoTiles.length; row++){}
+  for (let row = 0; row < pianoTiles.length; row++){}
     for (let col = 0; col < NUM_COLS; col++){
       let tileX = col * rectWidth;
       let tileY = row * rectHeight + scrollY - rectHeight;
