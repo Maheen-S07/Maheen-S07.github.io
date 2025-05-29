@@ -9,7 +9,7 @@ let rectWidth;
 let rectHeight;
 let pianoTiles = [];
 let scrollY = 0;
-let scrollSpeed = 4;
+let scrollSpeed = 6;
 
 
 function setup() {
@@ -25,102 +25,89 @@ function draw() {
 }
 
 // ----------- Display and Functionality of Game --------------
-
 function setUpSizes(){
-  //Set size of each tile based on size of screen
-  //Uses rows/cols to divide
+  //divide any screen size into 
+  //4 equal coloumn and rows.
   rectWidth = windowWidth/NUM_COLS;
   rectHeight = windowHeight/NUM_ROWS;
 }
 
+function randomRow(){
+  //Choose a random tile to make black 
+  //the rest stay white
+  let row = [];
+  let blackTile = floor(random(NUM_COLS));
+  for(let x = 0; x < NUM_COLS; x++){
+    if(x === blackTile){
+      row.push('black');
+    }
+  else{
+    row.push('white');
+    }
+  }
+  return row;
+}
+
 function randomStart(){
-  //Create the starting rows for the game
-  //helps scroll smoothly by adding more tiles
-  let totalRows = NUM_ROWS + 2; 
-  for(let i = 0; i < totalRows; i++){
+  //give a new arrangement of tiles
+  //everytime the game is reset.
+  let totalRows = NUM_ROWS + 2;
+  for(let i = 0; i < totalRows; i ++){
     pianoTiles.push(randomRow());
   }
 }
 
-function drawPiano(){
-  //Render a grid of squares - 4x4
-  //Use scrollY to scroll smoothly
-  for (let y = 0; y < pianoTiles.length; y++){ 
-    for (let x = 0; x < NUM_COLS; x++){
-      let tileY = y * rectHeight + scrollY;
-      fill(pianoTiles[y][x]); 
-      rect(x*rectWidth, tileY -  rectHeight, rectWidth, rectHeight);
-    }
-  }
-  scrollY += scrollSpeed;
-}
-
 function updateTiles(){
-  //Keep a flow of new rows
-  // Check if a full row has passed
+  //keep the tiles going
+  //Does not let them stack
   if(scrollY >= rectHeight){
     scrollY -= rectHeight;
-    pianoTiles.pop(); //remove bottom row
-    pianoTiles.unshift(randomRow()); //add new row
+    pianoTiles.pop(); // remove row
+    pianoTiles.unshift(randomRow()); //make a new row
   }
 }
 
-
-function randomRow(){
-  //create a row, one black tile and the rest white
-  //used for everytime a new row enters
-  let row = [];
-  let blackTile = floor(random(NUM_COLS)); //Choose random coloumn in the row
-  for(let x = 0; x < NUM_COLS; x++){
-    if(x === blackTile){
-      row.push('black'); // Black tile
+function drawPiano(){
+  //render the tiles on the screen 
+  for(let y = 0; y < pianoTiles.length; y++){
+    for(let x = 0; x < NUM_COLS; x++){
+      let tileY = y* rectHeight + scrollY;
+      fill(pianoTiles[y][x]);
+      rect( x* rectWidth, tileY - rectHeight, rectWidth, rectHeight)
+    }
   }
-    else{
-       row.push('white'); // White Tile
-  }
- }
-  return row;
+  scrollY += scrollSpeed; //scrolling
 }
 
-// ------- Touch -----------
-
-function tileTouch(x,y){
-  for (let y = 0; y < pianoTiles.length; y++){}
-    for (let x = 0; x < NUM_COLS; x++){
-      let tileX = x * rectWidth;
-      let tileY = y * rectHeight + scrollY - rectHeight;
-      //where did we click?
-      if(x > tileX && x < tileX + rectWidth && y > tileY && y < tileY + rectHeight){
-        let color = pianoTiles[y][x];
-        if(color === 'black'){
-          pianoTiles[y][x] = 'white';
-        }
-        else if(color === 'white'){  //clicked the wrong tile
-          pianoTiles[y][x] = 'red'
-        }
-        }
-
-      }
-
-}
+// -------------- Touch Functions --------------
 
 function touchStarted(){
-  for (let row = 0; y < pianoTiles.length; row++){}
-    for (let col = 0; col < NUM_COLS; col++){
-      let tileX = col * rectWidth;
+  //detects what tile was clicked
+  //what colour is it?
+  for(let row = 0; row < pianoTiles.length; row++){
+    for(let col = 0; col < NUM_COLS; col++){
+      let tileX = col* rectWidth;
       let tileY = row * rectHeight + scrollY - rectHeight;
-
-      //where did we click?
-      if(mouseX > tileX && mouseX < tileX + rectWidth && mouseY > tileY && mouseY < tileY + rectHeight){
-        let color = pianoTiles[row][col];
-        if(color === 'black'){
+      if(mouseX > tileX && mouseX < tileX + rectWidth && mouseY > tileY && mouseY < tileY + rectHeight){ //in bounds?
+        if(pianoTiles[row][col] === 'black'){
           pianoTiles[row][col] = 'white';
         }
-        else if(color === 'white'){  //clicked the wrong tile
-          pianoTiles[row][col] = 'red'
+        else{
+          pianoTiles[row][col] = 'red'; //WRONG TILE CLICKED
+          scrollSpeed = 0;
         }
-        }
-
       }
-  return false;
+    }
+  }
+  return false; // to avoid any zoom ins or pop ups when on mobile
 }
+
+
+
+
+
+
+
+
+
+
