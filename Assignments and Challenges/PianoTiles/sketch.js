@@ -11,6 +11,8 @@ let pianoTiles = [];
 let scrollY = 0;
 let scrollSpeed = 6;
 
+let gameState = "menu";
+
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -22,6 +24,7 @@ function draw() {
   background(220);
   drawPiano();
   updateTiles();
+  showMenu();
 }
 
 // ----------- Display and Functionality of Game --------------
@@ -73,10 +76,42 @@ function drawPiano(){
     for(let x = 0; x < NUM_COLS; x++){
       let tileY = y* rectHeight + scrollY;
       fill(pianoTiles[y][x]);
-      rect( x* rectWidth, tileY - rectHeight, rectWidth, rectHeight)
+      rect( x* rectWidth, tileY - rectHeight, rectWidth, rectHeight);
     }
   }
   scrollY += scrollSpeed; //scrolling
+}
+
+function showMenu(){
+  if(gameState === "menu"){ 
+    fill(255,255,255);
+    rect(0,0,width,height);
+    drawMenu();
+  }
+}
+
+function drawMenu(){
+  textAlign(CENTER);
+  textSize(100);
+  textFont('Verdana');
+  strokeWeight(2);
+  fill(112, 28, 79);
+  text("Tone Tap", width/2, height/3);
+
+  fill(255,255,255);
+  rect(width/2 - 150, height/2, 300,50);
+
+  textSize(35);
+  strokeWeight(1);
+  fill(112, 28, 79);
+  text("CHOOSE SONG", width/2, height/2 + 35);
+
+  circle(width/4, height * 0.70, 40);
+  circle(width/4, height * 0.85, 40);
+
+  text("SONG 1", width/2, height *0.71);
+  text("SONG 2", width/2, height*0.86);
+
 }
 
 // -------------- Touch Functions --------------
