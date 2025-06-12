@@ -10,12 +10,13 @@ let rectHeight;
 let pianoTiles = [];
 let scrollY = 0;
 let scrollSpeed = 4;
+let reason;
+
 
 //Starting game
 let countdownTime = 3;
 let countdownStart;
 let gameState = "menu";
-
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -23,17 +24,16 @@ function setup() {
   randomStart();
 }
 
-
 function draw() {
   background(220);
   gameStates();
 }
 
-
 // ----------- Display and Functionality of Game --------------
 function gameStates(){
-  //Handle what will be shown depending on 
-  //what state we are in 
+  //Handle what will be shown depending on
+  //what state we are in
+
 
   if(gameState === "menu"){
     showMenu();
@@ -51,13 +51,13 @@ function gameStates(){
   }
 }
 
+
 function setUpSizes(){
   //divide any screen size into
   //4 equal coloumn and rows.
   rectWidth = windowWidth/NUM_COLS;
   rectHeight = windowHeight/NUM_ROWS;
 }
-
 
 function randomRow(){
   //Choose a random tile to make black
@@ -75,12 +75,12 @@ function randomRow(){
   return row;
 }
 
-
 function randomStart(){
   //give a new arrangement of tiles
   //everytime the game is reset.
   let totalRows = NUM_ROWS + 2;
   let blankRows = 3; //first 3 rows all white
+
 
   for(let i = 0; i < totalRows; i ++){
    if(i >= totalRows - blankRows){
@@ -97,13 +97,13 @@ function randomStart(){
   }
 }
 
-
 function updateTiles(){
   //keep the tiles going
   //Does not let them stack
   //Check if any black tiles have gone off screen without being tapped
   if(scrollY >= rectHeight){
     scrollY -= rectHeight;
+
 
   //the tile off screen
   let lastRow = pianoTiles[pianoTiles.length -1];
@@ -113,15 +113,15 @@ function updateTiles(){
       lastRow[col] = 'red';
       scrollSpeed = 0; //pause game
       gameState = "restartGame";
-     return;
-   }
+      reason = "missed a tile!"
+      return;
+   } 
   }
   pianoTiles.pop(); // remove row
   pianoTiles.unshift(randomRow()); //make a new row
 }
 
 }
-
 
 function drawPiano(frozen = false){
   //render the tiles on the screen
@@ -137,13 +137,15 @@ function drawPiano(frozen = false){
   }
 }
 
+
 function showMenu(){
-  if(gameState === "menu"){ 
+  if(gameState === "menu"){
     fill(255,255,255);
     rect(0,0,width,height);
     drawMenu();
   }
 }
+
 
 function drawMenu(){
   textAlign(CENTER);
@@ -159,18 +161,45 @@ function drawMenu(){
   textSize(35);
   strokeWeight(1);
   fill(112, 28, 79);
-  text("CHOOSE SONG", width/2, height/2 + 35);
-
-  circle(width/4, height * 0.70, 40);
-  circle(width/4, height * 0.85, 40);
-
-  text("SONG 1", width/2, height *0.71);
-  text("SONG 2", width/2, height*0.86);
+  text("START", width/2, height/2 + 35);
 
 }
 
-// -------------- Touch Functions --------------
+function showCountdown(){
+  let passedTime = millis() - countdownStart;
+  let secondsLeft = countdownTime - floor(passedTime/1000);
+  let displayText;
 
+
+  textAlign(CENTER);
+  textSize(100);
+  fill(0);
+  if(secondsLeft > 0){
+    displayText = secondsLeft;
+    fill(173, 54, 54);
+    text(displayText, width/2, height/2);
+  }
+  else if(passedTime < (countdownTime + 1) * 1000){ //only show "go" for one second
+    displayText = "GO!";
+    fill(50, 168, 82);
+    text(displayText, width/2, height/2);
+  }
+  else{
+    gameState = "game"; //start the game once go disappears
+  }
+}
+
+
+function restartGame(){
+  fill(0);
+  rect(0,0,width,height);
+  fill(255);
+  textAlign(CENTER);
+  text("GAME OVER", width/2, height/3, 60);
+  text("Uh Oh!" + " " + "You" + " " + reason, width/2, height/2 + 40);
+}
+
+// -------------- Touch Functions --------------
 
 function touchStarted(){
   //Are we clicking the start button?
@@ -180,13 +209,14 @@ function touchStarted(){
     return false;
   }
 
+
   //detects what tile was clicked
   //what colour is it?
   for(let row = 0; row < pianoTiles.length; row++){
     for(let col = 0; col < NUM_COLS; col++){
       let tileX = col* rectWidth;
       let tileY = row * rectHeight + scrollY - rectHeight;
-      if(mouseX > tileX && mouseX < tileX + rectWidth && mouseY > tileY && mouseY < tileY + rectHeight){ //in bounds?
+      if( gameState === "game" && mouseX > tileX && mouseX < tileX + rectWidth && mouseY > tileY && mouseY < tileY + rectHeight){ //in bounds?
         if(pianoTiles[row][col] === 'black'){
           pianoTiles[row][col] = 'white';
         }
@@ -194,11 +224,13 @@ function touchStarted(){
           pianoTiles[row][col] = 'red'; //WRONG TILE CLICKED
           scrollSpeed = 0;
           gameState = "restartGame";
+          reason = "tapped the wrong tile!"
         }
       }
     }
   }
   return false; // to avoid any zoom ins or pop ups when on mobile
 }
+
 
 
