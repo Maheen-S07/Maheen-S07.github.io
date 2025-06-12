@@ -139,6 +139,8 @@ function drawPiano(frozen = false){
 
 
 function showMenu(){
+  //draw the menu when the time is right
+  //white out background
   if(gameState === "menu"){
     fill(255,255,255);
     rect(0,0,width,height);
@@ -148,6 +150,8 @@ function showMenu(){
 
 
 function drawMenu(){
+  //Draws Main Menu... 
+  //Title and Start button
   textAlign(CENTER);
   textSize(100);
   textFont('Verdana');
@@ -166,6 +170,9 @@ function drawMenu(){
 }
 
 function showCountdown(){
+  //Countdown from 3 after the start button is clicked
+  //gives user time to prepare
+  // 3-2-1.. GO!
   let passedTime = millis() - countdownStart;
   let secondsLeft = countdownTime - floor(passedTime/1000);
   let displayText;
@@ -191,6 +198,9 @@ function showCountdown(){
 
 
 function restartGame(){
+  //User did something incorrect
+  //restart menu 
+  //say the reason why they lost
   fill(0);
   rect(0,0,width,height);
   fill(255);
