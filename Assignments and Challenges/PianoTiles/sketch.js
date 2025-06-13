@@ -13,30 +13,33 @@ let scrollSpeed = 4;
 let reason;
 
 
+
+
 //Starting game
 let countdownTime = 3;
 let countdownStart;
 let gameState = "menu";
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 08602ea3eeb94fb152e0844c22d8c7031ff8ecb2
 function setup() {
   createCanvas(windowWidth, windowHeight);
   setUpSizes();
   randomStart();
 }
 
+
 function draw() {
   background(220);
   gameStates();
 }
 
+
 // ----------- Display and Functionality of Game --------------
 function gameStates(){
   //Handle what will be shown depending on
   //what state we are in
+
+
 
 
   if(gameState === "menu"){
@@ -56,12 +59,15 @@ function gameStates(){
 }
 
 
+
+
 function setUpSizes(){
   //divide any screen size into
   //4 equal coloumn and rows.
   rectWidth = windowWidth/NUM_COLS;
   rectHeight = windowHeight/NUM_ROWS;
 }
+
 
 function randomRow(){
   //Choose a random tile to make black
@@ -79,11 +85,14 @@ function randomRow(){
   return row;
 }
 
+
 function randomStart(){
   //give a new arrangement of tiles
   //everytime the game is reset.
   let totalRows = NUM_ROWS + 2;
   let blankRows = 3; //first 3 rows all white
+
+
 
 
   for(let i = 0; i < totalRows; i ++){
@@ -101,12 +110,15 @@ function randomStart(){
   }
 }
 
+
 function updateTiles(){
   //keep the tiles going
   //Does not let them stack
   //Check if any black tiles have gone off screen without being tapped
   if(scrollY >= rectHeight){
     scrollY -= rectHeight;
+
+
 
 
   //the tile off screen
@@ -119,11 +131,12 @@ function updateTiles(){
       gameState = "restartGame";
       reason = "missed a tile!"
       return;
-   } 
+   }
   }
   pianoTiles.pop(); // remove row
   pianoTiles.unshift(randomRow()); //make a new row
 }
+
 
 }
 
@@ -152,12 +165,9 @@ function showMenu(){
   }
 }
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 08602ea3eeb94fb152e0844c22d8c7031ff8ecb2
 function drawMenu(){
-  //Draws Main Menu... 
+  //Draws Main Menu...
   //Title and Start button
   textAlign(CENTER);
   textSize(100);
@@ -166,23 +176,19 @@ function drawMenu(){
   fill(112, 28, 79);
   text("Tone Tap", width/2, height/3);
 
-<<<<<<< HEAD
 
   fill(255,255,255);
   rect(width/2 - 150, height/2, 300,50);
 
 
-=======
-  fill(255,255,255);
-  rect(width/2 - 150, height/2, 300,50);
-
->>>>>>> 08602ea3eeb94fb152e0844c22d8c7031ff8ecb2
   textSize(35);
   strokeWeight(1);
   fill(112, 28, 79);
   text("START", width/2, height/2 + 35);
 
+
 }
+
 
 function showCountdown(){
   //Countdown from 3 after the start button is clicked
@@ -191,6 +197,8 @@ function showCountdown(){
   let passedTime = millis() - countdownStart;
   let secondsLeft = countdownTime - floor(passedTime/1000);
   let displayText;
+
+
 
 
   textAlign(CENTER);
@@ -212,24 +220,24 @@ function showCountdown(){
 }
 
 
+
+
 function restartGame(){
   //User did something incorrect
-  //restart menu 
+  //restart menu
   //say the reason why they lost
   fill(0);
   rect(0,0,width,height);
   fill(255);
   textAlign(CENTER);
-  text("GAME OVER", width/2, height/3, 60);
-  text("Uh Oh!" + " " + "You" + " " + reason, width/2, height/2 + 40);
+  textSize(60);
+  text("GAME OVER", width/2, height/3);
+  text("Uh Oh!" + " " + "You" + " " + reason, width/2, height/2);
 }
 
-<<<<<<< HEAD
 
-
-=======
->>>>>>> 08602ea3eeb94fb152e0844c22d8c7031ff8ecb2
 // -------------- Touch Functions --------------
+
 
 function touchStarted(){
   //Are we clicking the start button?
@@ -238,6 +246,8 @@ function touchStarted(){
     countdownStart = millis(); //start countdown timer
     return false;
   }
+
+
 
 
   //detects what tile was clicked
@@ -261,6 +271,8 @@ function touchStarted(){
   }
   return false; // to avoid any zoom ins or pop ups when on mobile
 }
+
+
 
 
 
