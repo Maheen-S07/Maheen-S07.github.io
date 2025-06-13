@@ -17,8 +17,6 @@ let countdownStart;
 let gameState = "menu";
 
 
-
-
 function setup() {
   createCanvas(windowWidth, windowHeight);
   setUpSizes();
@@ -147,7 +145,6 @@ function showMenu(){
     drawMenu();
   }
 }
-
 
 function drawMenu(){
   textAlign(CENTER);
