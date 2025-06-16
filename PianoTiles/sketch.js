@@ -14,17 +14,49 @@ let reason;
 let score = 0;
 let musicCD;
 let cdAngle = 0;
+let lobbyPlaying = false;
 
 //Starting game
 let countdownTime = 3;
 let countdownStart;
 let gameState = "menu";
 
+//Music Variables
+let noteSounds = {};
+let buzzSound;
+let lobbySong;
+let noteMelody = [ //ODE TO JOY
+  "E4", "E4", "F4", "G4", "G4", "F4", "E4", "D4",
+  "C4", "C4", "D4", "E4", "E4", "D4", "D4", null,
+
+  "E4", "E4", "F4", "G4", "G4", "F4", "E4", "D4",
+  "C4", "C4", "D4", "E4", "D4", "C4", "C4", null,
+
+  "D4", "D4", "E4", "C4", "D4", "E4", "F4", "E4", "C4", "D4",
+  "E4", "F4", "E4", "D4", "C4", null,
+
+  "E4", "E4", "F4", "G4", "G4", "F4", "E4", "D4",
+  "C4", "C4", "D4", "E4", "D4", "C4", "C4"
+    ,"E4", "E4", "F4", "G4", "G4", "F4", "E4", "D4",
+  "C4", "C4", "D4", "E4", "E4", "D4", "D4", null,
+
+  "E4", "E4", "F4", "G4", "G4", "F4", "E4", "D4",
+  "C4", "C4", "D4", "E4", "D4", "C4", "C4", null,
+
+  "D4", "D4", "E4", "C4", "D4", "E4", "F4", "E4", "C4", "D4",
+  "E4", "F4", "E4", "D4", "C4", null,
+
+  "E4", "E4", "F4", "G4", "G4", "F4", "E4", "D4",
+  "C4", "C4", "D4", "E4", "D4", "C4", "C4"
+];
+
+let currentNote;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   setUpSizes();
   randomStart();
+  currentNote = 0;
 }
 
 function draw() {
@@ -34,6 +66,20 @@ function draw() {
 
 // ----------- Display and Functionality of Game --------------
 function preload(){
+  //Piano notes
+  noteSounds["C4"] = loadSound("assets/C4.mp3");
+  noteSounds["D4"] = loadSound("assets/D4.mp3");
+  noteSounds["E4"] = loadSound("assets/E4.mp3");
+  noteSounds["F4"] = loadSound("assets/F4.mp3");
+  noteSounds["G4"] = loadSound("assets/G4.mp3");
+
+  //buzzer
+  buzzSound = loadSound("assets/buzzer.mp3");
+
+  //Lobby Music
+  lobbySong = loadSound("assets/lobbyMusic.mp3");
+
+  //CD Image
   musicCD = loadImage("assets/CDPlayer.png");
 }
 
@@ -117,6 +163,7 @@ function updateTiles(){
       //user forgot a black tile
       lastRow[col] = 'red';
       scrollSpeed = 0; //pause game
+      buzzSound.play();
       gameState = "restartGame";
       reason = "missed a tile!"
       return;
@@ -151,6 +198,10 @@ function showMenu(){
   //draw the menu when the time is right
   //white out background
   if(gameState === "menu"){
+    if(lobbyPlaying === false){
+      lobbySong.loop();
+      lobbyPlaying = true;
+    }
     fill(255,255,255);
     rect(0,0,width,height);
     drawMenu();
@@ -188,8 +239,8 @@ function drawMenu(){
   textFont('Georgia');
   strokeWeight(2);
   fill(145, 112, 197);
-  text("Tone", width/2, height/3 + 50);
-  text("TAP", width/2, height/3 + 160);
+  text("Tone", width/2, height/3 + 60);
+  text("TAP", width/2, height/3 + 170);
 
   //Draw Start Button
   fill(255,255,255,180);
@@ -200,7 +251,13 @@ function drawMenu(){
   noStroke();
   textSize(35);
   fill(145, 112, 197);
-  text("START", width/2, height/2 + 140);
+  text("START", width/2, height/2 + 138);
+
+  text("Song: Ode To Joy - Beethoven", width/2, height * 0.85);
+  fill(0);
+  textAlign(LEFT);
+  textSize(15);
+  text("Maheen Shahid", 3, height - 3);
 }
 
 function showCountdown(){
@@ -236,7 +293,7 @@ function restartGame(){
 
   //GAME OVER
   textAlign(CENTER, CENTER);
-  textSize(80);
+  textSize(min(width,height) * 0.12); //based on size of screen
   fill(255,0,70);
   text("GAME OVER", width/2, height/3);
 
@@ -261,20 +318,36 @@ function restartGame(){
 // -------------- Touch Functions --------------
 
 function touchStarted(){
+  userStartAudio(); //ensures the sound plays
+
   //Are we clicking the start button?
-  if(gameState === "menu" && mouseX > width/2 - 150 && mouseX < width/2+ 150 && mouseY > height/2 +100 && mouseY < height/2 + 160){
+  if(gameState === "menu" && 
+    mouseX > width/2 - 150 && 
+    mouseX < width/2+ 150 &&
+     mouseY > height/2 +100 && 
+     mouseY < height/2 + 160){
+      if(lobbySong.isPlaying()){
+        lobbySong.stop();
+        lobbyPlaying = false;
+      }
     gameState = "countdown";
     countdownStart = millis(); //start countdown timer
     return false;
+
   }
+
 
   //Are we clicking the restart button?
   if(gameState === "restartGame"){
-    if(mouseX > width/2 - 125 && mouseX < width/2 +125 && mouseY > height *0.7 && mouseY < height * 0.7 + 60){
+    if(mouseX > width/2 - 125 && 
+      mouseX < width/2 +125 &&
+       mouseY > height *0.7 &&
+        mouseY < height * 0.7 + 60){
       pianoTiles = [];
       randomStart();
       scrollSpeed = 4;
       gameState = "menu";
+      currentNote = 0;
     }
   }
   //detects what tile was clicked
@@ -287,10 +360,21 @@ function touchStarted(){
         if(pianoTiles[row][col] === 'black'){
           pianoTiles[row][col] = 'white';
           score++;
+
+          //Play next note
+          if(currentNote < noteMelody.length){
+            let note = noteMelody[currentNote];
+            console.log("Playing note", note);
+            if(note && noteSounds[note]){
+              noteSounds[note].play();
+            }
+          }
+           currentNote++;
         }
         else{
           pianoTiles[row][col] = 'red'; //WRONG TILE CLICKED
           scrollSpeed = 0;
+          buzzSound.play();
           gameState = "restartGame";
           reason = "tapped the wrong tile!"
         }
