@@ -337,9 +337,9 @@ function restartGame(){
   text("RESTART", width/2, height * 0.7 + 30);
 }
 
-// WINNING FUNCTION
-
 function showWin(){
+  // WINNING FUNCTION
+  // User has successfully made it through the song
   textAlign(CENTER);
   fill(50,168,82);
   textSize(min(width,height) * 0.12);
