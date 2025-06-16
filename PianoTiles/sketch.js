@@ -320,7 +320,7 @@ function restartGame(){
   text("GAME OVER", width/2, height/3);
 
   //Reason and score
-  textSize(32);
+  textSize(min(width, height) * 0.04);
   fill(255);
   text("Uh Oh! You " + reason, width/2, height/2 - 20);
   text("Score: " + score, width/2, height *0.54 + 30);
