@@ -9,12 +9,15 @@ let rectWidth;
 let rectHeight;
 let pianoTiles = [];
 let scrollY = 0;
-let scrollSpeed = 4;
+let scrollSpeed = 5.5;
 let reason;
 let score = 0;
 let musicCD;
 let cdAngle = 0;
 let lobbyPlaying = false;
+let winnerTimer = 0;
+let winner;
+let start;
 
 //Starting game
 let countdownTime = 3;
@@ -79,6 +82,12 @@ function preload(){
   //Lobby Music
   lobbySong = loadSound("assets/lobbyMusic.mp3");
 
+  //Start
+  start = loadSound("assets/StartButton.wav");
+
+  //Winner
+  winner = loadSound("assets/Winner.wav");
+
   //CD Image
   musicCD = loadImage("assets/CDPlayer.png");
 }
@@ -99,6 +108,10 @@ function gameStates(){
   }
   else if(gameState === "restartGame"){
     restartGame();
+  }
+  else if(gameState === "win"){
+    drawPiano(false);
+    showWin();
   }
 }
 
@@ -149,6 +162,15 @@ function updateTiles(){
   //keep the tiles going
   //Does not let them stack
   //Check if any black tiles have gone off screen without being tapped
+  if(gameState === "win"){
+    for(let row = 0; row < pianoTiles.length; row++){
+      for(let col = 0; col < NUM_COLS; col++){
+        if(pianoTiles[row][col] === "black"){
+          pianoTiles[row][col] = "white";  //no black tiles left
+        }
+      }
+    }
+  }
   if(scrollY >= rectHeight){
     scrollY -= rectHeight;
   
@@ -249,7 +271,7 @@ function drawMenu(){
   rect(width/2 - 150, height/2 + 100, 300,60, 20);
 
   noStroke();
-  textSize(35);
+  textSize(height * 0.05);
   fill(145, 112, 197);
   text("START", width/2, height/2 + 138);
 
@@ -315,6 +337,21 @@ function restartGame(){
   text("RESTART", width/2, height * 0.7 + 30);
 }
 
+// WINNING FUNCTION
+
+function showWin(){
+  textAlign(CENTER);
+  fill(50,168,82);
+  textSize(min(width,height) * 0.12);
+  text("YOU WIN!", width/2, height/3);
+
+  textSize(32);
+  fill(0);
+  text("Score: " + score, width/2, height *0.54 + 30);
+
+  winner.play();
+}
+
 // -------------- Touch Functions --------------
 
 function touchStarted(){
@@ -330,12 +367,12 @@ function touchStarted(){
         lobbySong.stop();
         lobbyPlaying = false;
       }
+    start.play();
     gameState = "countdown";
     countdownStart = millis(); //start countdown timer
     return false;
 
   }
-
 
   //Are we clicking the restart button?
   if(gameState === "restartGame"){
@@ -364,12 +401,17 @@ function touchStarted(){
           //Play next note
           if(currentNote < noteMelody.length){
             let note = noteMelody[currentNote];
-            console.log("Playing note", note);
             if(note && noteSounds[note]){
               noteSounds[note].play();
             }
+            currentNote++;
+            //Did the user finish the song?
+            if(currentNote >= noteMelody.length){
+              gameState = "win";
+              winnerTimer = millis();
+              scrollSpeed = 3; 
+            }
           }
-           currentNote++;
         }
         else{
           pianoTiles[row][col] = 'red'; //WRONG TILE CLICKED
