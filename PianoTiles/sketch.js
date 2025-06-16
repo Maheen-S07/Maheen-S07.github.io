@@ -33,7 +33,7 @@ function draw() {
 
 // ----------- Display and Functionality of Game --------------
 function preload(){
-  musicSpiral = loadImage("Assets/Spiral.png.png");
+  musicSpiral = loadImage("assets/Spiral.png");
 }
 
 function gameStates(){
