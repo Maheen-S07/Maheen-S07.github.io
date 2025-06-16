@@ -223,7 +223,6 @@ function showMenu(){
       lobbySong.loop();
       lobbyPlaying = true;
     }
-    clear();
     fill(255,255,255);
     rect(0,0,width,height);
     drawMenu();
@@ -336,13 +335,6 @@ function restartGame(){
   fill(0);
   textSize(30);
   text("RESTART", width/2, height * 0.7 + 30);
-
-  if(gameState === "restartGame"){
-    scrollY = 0;
-    pianoTiles = [];
-    randomStart();
-    gameState = "menu";
-    return false;
 }
 
 function showWin(){
