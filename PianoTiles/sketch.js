@@ -12,7 +12,8 @@ let scrollY = 0;
 let scrollSpeed = 4;
 let reason;
 let score = 0;
-let musicSpiral;
+let musicCD;
+let cdAngle = 0;
 
 //Starting game
 let countdownTime = 3;
@@ -33,7 +34,7 @@ function draw() {
 
 // ----------- Display and Functionality of Game --------------
 function preload(){
-  musicSpiral = loadImage("assets/Spiral.png");
+  musicCD = loadImage("assets/CDPlayer.png");
 }
 
 function gameStates(){
@@ -157,18 +158,28 @@ function showMenu(){
 }
 
 function drawMenu(){
-    //Draws Main Menu...
+  //Draws Main Menu...
   //Title and Start button
-  background(255);
+  noStroke();
+  for(let y =0; y < height; y+= 10){
+   let blue = 230 + y * 0.1; //230 -> 255
+   let red = 170 + y * 0.1;
+   let green = 200 - y *0.1;
 
-  //Draw the spiral
+   fill(red, green.blue);
+   rect(0,y,width,10);
+  }
+
+  //Draw the CD rotating
+  let imgScale = 0.25;
   imageMode(CENTER);
-  let imgScale = min(width/musicSpiral.width, height/musicSpiral.height)*0.8;
   push();
-  translate(width/2, height / 2);
+  translate(width/2, height/3 - 100);
+  rotate(radians(cdAngle));
   scale(imgScale);
-  image(musicSpiral,0,0);
+  image(musicCD,0,0);
   pop();
+  cdAngle += 0.5;
 
 
   //Draw title
@@ -177,8 +188,8 @@ function drawMenu(){
   textFont('Georgia');
   strokeWeight(2);
   fill(145, 112, 197);
-  text("Tone", width/2, height/3 - 60);
-  text("TAP", width/2, height/3 + 30);
+  text("Tone", width/2, height/3 + 50);
+  text("TAP", width/2, height/3 + 160);
 
   //Draw Start Button
   fill(255,255,255,180);
