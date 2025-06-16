@@ -105,6 +105,10 @@ function updateTiles(){
   if(scrollY >= rectHeight){
     scrollY -= rectHeight;
   
+  if(scrollSpeed < 12){ //max speed
+    scrollSpeed += 0.05; //increase speed slightly overtime
+  }
+
   //the tile off screen
   let lastRow = pianoTiles[pianoTiles.length -1];
   for(let col = 0; col < NUM_COLS; col++){
@@ -128,7 +132,7 @@ function drawPiano(frozen = false){
     for(let x = 0; x < NUM_COLS; x++){
       let tileY = y* rectHeight + scrollY;
       stroke(0);
-      strokeWeight(2);
+      strokeWeight(1);
       fill(pianoTiles[y][x]);
       rect( x* rectWidth, tileY - rectHeight, rectWidth, rectHeight);
     }
