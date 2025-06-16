@@ -28,6 +28,7 @@ let gameState = "menu";
 let noteSounds = {};
 let buzzSound;
 let lobbySong;
+let currentNote;
 let noteMelody = [ //ODE TO JOY
   "E4", "E4", "F4", "G4", "G4", "F4", "E4", "D4",
   "C4", "C4", "D4", "E4", "E4", "D4", "D4", null,
@@ -52,8 +53,6 @@ let noteMelody = [ //ODE TO JOY
   "E4", "E4", "F4", "G4", "G4", "F4", "E4", "D4",
   "C4", "C4", "D4", "E4", "D4", "C4", "C4"
 ];
-
-let currentNote;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -350,7 +349,17 @@ function showWin(){
   fill(0);
   text("Score: " + score, width/2, height *0.54 + 30);
 
-  winner.play();
+  if(!winner.isPlaying()){
+    winner.play();
+  }
+
+  if(millis() - winnerTimer > 3000){ //3 seconds
+    pianoTiles = [];  //reset everything
+    randomStart();
+    scrollSpeed = 5.5;
+    gameState = "menu";
+    currentNote = 0;
+  }
 }
 
 // -------------- Touch Functions --------------
