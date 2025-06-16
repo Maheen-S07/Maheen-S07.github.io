@@ -275,6 +275,7 @@ function drawMenu(){
   fill(145, 112, 197);
   text("START", width/2, height/2 + 138);
 
+  textSize(min(width, height) * 0.025); //scale based on screen
   text("Song: Ode To Joy - Beethoven", width/2, height * 0.85);
   fill(0);
   textAlign(LEFT);
